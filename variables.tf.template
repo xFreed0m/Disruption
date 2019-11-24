@@ -1,0 +1,45 @@
+# Resource group to use
+variable "rg" {
+    default = ""
+}
+
+# Location to use
+variable "location" {
+    default = ""
+}
+
+# Local admin username
+variable "username" {  
+    default = ""  
+}
+
+# Local admin password
+variable "password" {
+    default = ""
+}
+
+# Public key for SSH authentication
+variable "pub_key" {
+    default = ""
+}
+
+# Name for the domain creation
+variable "domain_name" {
+    default = ""
+}
+
+# Netbios domain name
+variable "netbios_domain_name" {
+    default = ""
+}
+
+# the DC internal address to be able to join the domain
+variable "int_dns_address" {
+    default = ["192.167.7.10"]
+}
+
+# Username for the Domain Admin
+variable "DA_username" {
+  default = ""
+}
+
