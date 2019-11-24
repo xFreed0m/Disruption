@@ -11,7 +11,7 @@ locals {
   shutdown_command     = "shutdown -r -t 10"
 # Exit code hack is needed to prevent the terraform deployer from thinking the command failed
   exit_code_hack       = "exit 0"
-  win7_set_dns         = "netsh interface ip set dns 'Local Area Connection' static 192.168.1.10"
+  win7_set_dns         = "netsh interface ip set dns 'Local Area Connection' static 192.167.1.10"
   powershell_command   = "${local.ps_exec_policy}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
   fileserver_install   = "Install-WindowsFeature -Name FS-FileServer -IncludeAllSubFeature -IncludeManagementTools"
   webserver_install    = "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
@@ -83,7 +83,7 @@ locals {
   choco_install           = "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
   choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
-  set_dns                 = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('192.168.1.10', '1.1.1.1')"
+  set_dns                 = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('192.167.1.10', '1.1.1.1')"
   dc2powershell_command   = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.dc2import_command}; ${local.dc2user_command}; ${local.dc2password_command}; ${local.dc2creds_command}; ${local.dc2install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.dc2exit_code_hack}"
 }
 
