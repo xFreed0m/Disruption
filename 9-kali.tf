@@ -84,20 +84,20 @@ resource "azurerm_virtual_machine" "kali" {
 }
 
 # Kali update && upgrade 
-resource "azurerm_virtual_machine_extension" "kali_commands" {
-  name                 = "kali_commands"
-  location             = "${var.location}"
-  resource_group_name  = "${var.rg}"
-  virtual_machine_name = "${azurerm_virtual_machine.kali.name}"
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
+# resource "azurerm_virtual_machine_extension" "kali_commands" {
+#   name                 = "kali_commands"
+#   location             = "${var.location}"
+#   resource_group_name  = "${var.rg}"
+#   virtual_machine_name = "${azurerm_virtual_machine.kali.name}"
+#   publisher            = "Microsoft.Azure.Extensions"
+#   type                 = "CustomScript"
+#   type_handler_version = "2.0"
 
-  settings = <<SETTINGS
-    {
-        "commandToExecute": "apt-get update"
-    }
-SETTINGS
+#   settings = <<SETTINGS
+#     {
+#         "commandToExecute": "DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y"
+#     }
+# SETTINGS
 
-  depends_on = ["azurerm_virtual_machine.kali"]
-}
+#   depends_on = ["azurerm_virtual_machine.kali"]
+# }

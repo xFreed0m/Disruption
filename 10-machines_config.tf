@@ -17,8 +17,17 @@ locals {
   webserver_install    = "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
   mkdir_temp           = "mkdir C:/Temp" 
   fileserver_share     = "New-SmbShare -Name fileshare -Path C:/Temp -FullAccess Everyone"
+  dc2user_command         = "$dc2user = ${var.username}" 
+  dc2creds_command        = "$mycreds = New-Object System.Management.Automation.PSCredential -ArgumentList $dc2user, $password"
+  dc2configure_ad_command = "Install-ADDSDomainController -Credential $mycreds -CreateDnsDelegation:$false -DomainName ${var.domain_name} -InstallDns:$true -SafeModeAdministratorPassword $password -Force:$true"
+  dc2shutdown_command     = "shutdown -r -t 10"
+  ps_exec_policy          = "Set-ExecutionPolicy Bypass -Force"
+  choco_install           = "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
+  choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
+  # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
+  set_dns                 = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
+  dc2powershell_command   = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
 }
-
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
   name                 = "dc1primary_commands"
   location             = "${var.location}"
@@ -40,6 +49,23 @@ SETTINGS
 ####### Joining DC2 to the domain & promoting it to DC and installing utils
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
+resource "azurerm_virtual_machine_extension" "dc2_commands" {
+  name                 = "dc2_commands"
+  location             = "${var.location}"
+  resource_group_name  = "${var.rg}"
+  virtual_machine_name = "${azurerm_virtual_machine.dc2sub.name}"
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
+
+  settings = <<SETTINGS
+    {
+        "commandToExecute": "powershell.exe -Command \"${local.dc2powershell_command}\" "
+    }
+SETTINGS
+  depends_on = ["azurerm_virtual_machine_extension.join-domain_dc2"]
+}
+
 resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
   name                 = "join-domain_dc2"
   location             = "${var.location}"
@@ -67,24 +93,6 @@ SETTINGS
     }
 SETTINGS
   depends_on = ["azurerm_virtual_machine_extension.dc1primary_commands"]
-}
-
-locals {
-  dc2import_command       = "Import-Module ADDSDeployment"
-  dc2user_command         = "$dc2user = ${var.username}" 
-  dc2password_command     = "$password = ConvertTo-SecureString ${var.password} -AsPlainText -Force"
-  dc2creds_command        = "$mycreds = New-Object System.Management.Automation.PSCredential -ArgumentList $dc2user, $password"
-  dc2join_domain          = "Add-Computer –DomainName ${var.domain_name} -Credential $mycreds"
-  dc2install_ad_command   = "Add-WindowsFeature -name ad-domain-services -IncludeManagementTools"
-  dc2configure_ad_command = "Install-ADDSDomainController -Credential $mycreds -CreateDnsDelegation:$false -DomainName ${var.domain_name} -InstallDns:$true -SafeModeAdministratorPassword $password -Force:$true"
-  dc2shutdown_command     = "shutdown -r -t 10"
-  dc2exit_code_hack       = "exit 0"
-  ps_exec_policy          = "Set-ExecutionPolicy Bypass -Force"
-  choco_install           = "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
-  choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
-  # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
-  set_dns                 = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
-  dc2powershell_command   = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.dc2import_command}; ${local.dc2user_command}; ${local.dc2password_command}; ${local.dc2creds_command}; ${local.dc2install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.dc2exit_code_hack}"
 }
 
 ###################################
