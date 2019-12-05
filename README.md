@@ -17,11 +17,10 @@ All the needed configurations (Domain creation, DC promotion, joining the machin
 4. Have a coffee or something, this takes ~45 minutes to complete the deployment fully
 5. Make sure to destroy the environment to avoid being charged a considerable amount of money.
 
-### Donations
-Did my work helped you? Did it save you some time and money?
-Well, just in case you want to buy me a coffee (or beer), feel free to donate, it will be highly appreciated!
+### Issues, bugs and other code-issues
+Yeah, I know, this code isn't the best. I'm fine with it as I'm not a developer and this is part of my learning process.
+If there is an option to do some of it better, please, let me know.
 
-Thanks in advance!
+_Not how many, but where._
 
-[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0xC1c9F71cb7845D7c3254Fa6b8b968ceDb5FA1bBE)](https://en.cryptobadges.io/donate/0xC1c9F71cb7845D7c3254Fa6b8b968ceDb5FA1bBE)[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1Nkqjt7fZ8NDJdeRKZcGKUQREoaSyLhvde)](https://en.cryptobadges.io/donate/1Nkqjt7fZ8NDJdeRKZcGKUQREoaSyLhvde)
->_If you use another crypto, please send me a message, and I will pass you a specific address for that coin_
+v0.1
