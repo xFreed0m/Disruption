@@ -15,12 +15,11 @@ All the needed configurations (Domain creation, DC promotion, joining the machin
 2. Duplicate the variables.tf.template and remove the 'template' from the duplicated file name.
 3. Fill in the details in the variables.tf file you just created, those variables are used during the deployment.
 4. Have a coffee or something, this takes ~45 minutes to complete the deployment fully
-5. Make sure to destroy the environment to avoid being charged a considerable amount of money.
+5. When the deployment is done Terraform will print all the IPs (public and private) - note that the public IPs will be configured to allow external connections only from the deploying machine public IP and the rules allow port 80, 3389 and 22.
+6. Make sure to destroy the environment to avoid being charged a considerable amount of money.
 
 ### Issues, bugs and other code-issues
 Yeah, I know, this code isn't the best. I'm fine with it as I'm not a developer and this is part of my learning process.
 If there is an option to do some of it better, please, let me know.
 
 _Not how many, but where._
-
-v0.1
