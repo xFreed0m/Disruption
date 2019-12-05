@@ -47,7 +47,7 @@ output "Kali_internal_ip_address" {
 
 # Kali Public IP
 output "kali_public_ip_address" {
-  description = "The SSH Public IP of Kali"
+  description = "kali external IP"
   value       = "${azurerm_public_ip.kalipublicip.ip_address}"
 
   depends_on  = ["azurerm_virtual_machine.kali"]
