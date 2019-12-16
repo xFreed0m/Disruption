@@ -5,8 +5,8 @@ data "external" "whatismyip" {
 
 resource "azurerm_network_security_group" "secgroup" {
     name                = "myNetworkSecurityGroup"
-    location            = "${var.location}"
-    resource_group_name = "${var.rg}"
+    location            = var.location
+    resource_group_name = var.rg
     
     security_rule {
         name                       = "RDP"
@@ -55,14 +55,14 @@ resource "random_id" "randomId" {
 
 resource "azurerm_storage_account" "storageacct" {
     name                     = "storage${random_id.randomId.hex}"
-    resource_group_name      = "${var.rg}"
-    location                 = "${var.location}"
+    resource_group_name      = var.rg
+    location                 = var.location
     account_tier             = "Standard"
     account_replication_type = "LRS"
 }
 
 resource "azurerm_storage_container" "storagecontainer" {
     name                  = "storagecontainer"
-    storage_account_name  = "${azurerm_storage_account.storageacct.name}"
+    storage_account_name  = azurerm_storage_account.storageacct.name
     container_access_type = "private"
 }

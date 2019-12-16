@@ -5,11 +5,11 @@
 # Creating a NIC for internal network on Fileserver
 resource "azurerm_network_interface" "fileserver_internalnic" {
     name                = "fileserver_intnic"
-    location            = "${var.location}"
-    resource_group_name = "${var.rg}"
+    location            = var.location
+    resource_group_name = var.rg
     ip_configuration {
         name                          = "fileserver_internal"
-        subnet_id                     = "${azurerm_subnet.subnet.id}"
+        subnet_id                     = azurerm_subnet.subnet.id
         private_ip_address_allocation = "Dynamic"
     }
     dns_servers         = ["${var.int_dns_address}"]
@@ -18,27 +18,27 @@ resource "azurerm_network_interface" "fileserver_internalnic" {
 
 resource "azurerm_network_interface" "fileserver_externalnic" {
     name                = "fileserver_extnic"
-    location            = "${var.location}"
-    resource_group_name = "${var.rg}"
-    network_security_group_id = "${azurerm_network_security_group.secgroup.id}"
+    location            = var.location
+    resource_group_name = var.rg
+    network_security_group_id = azurerm_network_security_group.secgroup.id
 
     ip_configuration {
         primary                       = true
         name                          = "fileserver_externalnic"
-        subnet_id                     = "${azurerm_subnet.subnet.id}"
+        subnet_id                     = azurerm_subnet.subnet.id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = "${azurerm_public_ip.fileserverpublicip.id}"
+        public_ip_address_id          = azurerm_public_ip.fileserverpublicip.id
     }
 }
 
 # Creating Fileserver VM
 resource "azurerm_virtual_machine" "fileserver" {
     name                         = "fileserver"
-    resource_group_name          = "${var.rg}"
-    location                     = "${var.location}"
+    resource_group_name          = var.rg
+    location                     = var.location
     network_interface_ids        = ["${azurerm_network_interface.fileserver_internalnic.id}","${azurerm_network_interface.fileserver_externalnic.id}"]
     vm_size                      = "Standard_D2_v2"
-    primary_network_interface_id = "${azurerm_network_interface.fileserver_externalnic.id}"
+    primary_network_interface_id = azurerm_network_interface.fileserver_externalnic.id
     delete_os_disk_on_termination = true
     delete_data_disks_on_termination = true
 
@@ -57,8 +57,8 @@ resource "azurerm_virtual_machine" "fileserver" {
 
     os_profile {
         computer_name  = "fileserver"
-        admin_username = "${var.username}"
-        admin_password = "${var.password}" 
+        admin_username = var.username
+        admin_password = var.password
     }
 
     os_profile_windows_config {
