@@ -42,7 +42,7 @@ output "Kali_internal_ip_address" {
   description = "kali internal IP"
   value = "${azurerm_network_interface.kali_internalnic.private_ip_address}"
 
-  depends_on  = [azurerm_network_interface.kali_internalnic.private_ip_address]
+  depends_on  = ["azurerm_network_interface.kali_internalnic.private_ip_address"]
 }
 
 # Kali Public IP
@@ -50,5 +50,5 @@ output "kali_public_ip_address" {
   description = "kali external IP"
   value       = "${azurerm_public_ip.kalipublicip.ip_address}"
 
-  depends_on  = [azurerm_virtual_machine.kali]
+  depends_on  = ["azurerm_virtual_machine.kali"]
 }

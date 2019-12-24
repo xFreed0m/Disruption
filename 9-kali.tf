@@ -12,27 +12,27 @@
 # External NIC to access Kali from the outside
 resource "azurerm_network_interface" "kali_externalnic" {
     name                = "kali_extnic"
-    location            = var.location
-    resource_group_name = var.rg
-    network_security_group_id = azurerm_network_security_group.secgroup.id
+    location            = "${var.location}"
+    resource_group_name = "${var.rg}"
+    network_security_group_id = "${azurerm_network_security_group.secgroup.id}"
 
     ip_configuration {
         primary                       = true
         name                          = "kali_externalnic"
-        subnet_id                     = azurerm_subnet.subnet.id
+        subnet_id                     = "${azurerm_subnet.subnet.id}"
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.kalipublicip.id
+        public_ip_address_id          = "${azurerm_public_ip.kalipublicip.id}"
     }
 }
 
 # Creating a NIC for internal network on Kali
 resource "azurerm_network_interface" "kali_internalnic" {
     name                = "kali_intnic"
-    location            = var.location
-    resource_group_name = var.rg
+    location            = "${var.location}"
+    resource_group_name = "${var.rg}"
     ip_configuration {
         name                          = "kali_internal"
-        subnet_id                     = azurerm_subnet.subnet.id
+        subnet_id                     = "${azurerm_subnet.subnet.id}"
         private_ip_address_allocation = "Dynamic"
     }
 }
@@ -40,11 +40,11 @@ resource "azurerm_network_interface" "kali_internalnic" {
 #Creating kali-linux VM
 resource "azurerm_virtual_machine" "kali" {
     name                         = "kali"
-    resource_group_name          = var.rg
-    location                     = var.location
+    resource_group_name          = "${var.rg}"
+    location                     = "${var.location}"
     network_interface_ids        = ["${azurerm_network_interface.kali_externalnic.id}", "${azurerm_network_interface.kali_internalnic.id}"]
     vm_size                      = "Standard_D1_v2"
-    primary_network_interface_id = azurerm_network_interface.kali_externalnic.id
+    primary_network_interface_id = "${azurerm_network_interface.kali_externalnic.id}"
     delete_os_disk_on_termination = true
     delete_data_disks_on_termination = true
 
@@ -63,15 +63,15 @@ resource "azurerm_virtual_machine" "kali" {
 
     os_profile {
         computer_name  = "kali"
-        admin_username = var.username
-        admin_password = var.password 
+        admin_username = "${var.username}"
+        admin_password = "${var.password}"
     }
 
     os_profile_linux_config {
         disable_password_authentication = true
         ssh_keys {
             path     = "/home/landlord/.ssh/authorized_keys"
-            key_data = var.pub_key
+            key_data = "${var.pub_key}"
         }
     }
 
@@ -86,8 +86,8 @@ resource "azurerm_virtual_machine" "kali" {
 # Kali update && upgrade 
 # resource "azurerm_virtual_machine_extension" "kali_commands" {
 #   name                 = "kali_commands"
-#   location             = var.location
-#   resource_group_name  = var.rg
+#   location             = "${var.location}"
+#   resource_group_name  = "${var.rg}"
 #   virtual_machine_name = "${azurerm_virtual_machine.kali.name}"
 #   publisher            = "Microsoft.Azure.Extensions"
 #   type                 = "CustomScript"
