@@ -41,6 +41,28 @@ resource "azurerm_network_security_group" "secgroup" {
         source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
         destination_address_prefix = "*"        
     }
+    security_rule {
+        name                       = "Caldera_admin"
+        priority                   = 1004
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8888"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"        
+    }
+    security_rule {
+        name                       = "Caldera_C2"
+        priority                   = 1005
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "5678"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"        
+    }
 }
 
 # Generate random text for a unique storage account name
