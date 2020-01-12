@@ -95,7 +95,7 @@ resource "azurerm_virtual_machine_extension" "kali_commands" {
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "https://gist.githubusercontent.com/xFreed0m/ac83b391df6ff69938dae390ee393b59/raw/4988e3754c17d3c2c32aeadd408932a6c25fc1fb/Caldera_install.sh | bash && exit 0"
+        "commandToExecute": "wget -O - https://gist.githubusercontent.com/xFreed0m/ac83b391df6ff69938dae390ee393b59/raw/188605ed2e1f3e37246af96fcb7baf497157d68d/Caldera_install.sh | bash && exit 0"
     }
 SETTINGS
 
