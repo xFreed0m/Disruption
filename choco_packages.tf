@@ -1,32 +1,32 @@
 variable "chrome" {
-  default = "googlechrome"
+    default = "googlechrome"
 }
 
 variable "notepad" {
-  default = "notepadplusplus"
+    default = "notepadplusplus"
 }
 
 variable "atom" {
-  default = "atom"
+    default = "atom"
 }
 
 variable "s7z" {
-  default = "7zip"
+    default = "7zip"
 }
 
 variable "git" {
-  default = "git"
+    default = "git"
 }
 
 variable "sysint" {
-  default = "sysinternals"
+    default = "sysinternals"
 }
 
 variable "py2" {
-  default = "python2"
+    default = "python2"
 }
 
 variable "py3" {
-  default = "python3"
+    default = "python3"
 }
 
