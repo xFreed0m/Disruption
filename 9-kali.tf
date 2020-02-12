@@ -83,8 +83,8 @@ resource "azurerm_virtual_machine" "kali" {
   }
 }
 
-# Kali update && upgrade 
-<<<<<<< Updated upstream
+# Kali update && upgrade
+
 # resource "azurerm_virtual_machine_extension" "kali_commands" {
 #   name                 = "kali_commands"
 #   location             = "${var.location}"
@@ -102,7 +102,6 @@ resource "azurerm_virtual_machine_extension" "kali_commands" {
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.0"
->>>>>>> Stashed changes
 
 #   settings = <<SETTINGS
 #     {
@@ -110,12 +109,9 @@ resource "azurerm_virtual_machine_extension" "kali_commands" {
 #     }
 # SETTINGS
 
-<<<<<<< Updated upstream
 #   depends_on = ["azurerm_virtual_machine.kali"]
 # }
 =======
 
   depends_on = [azurerm_virtual_machine.kali]
 }
-
->>>>>>> Stashed changes

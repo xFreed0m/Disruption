@@ -4,11 +4,10 @@ data "external" "whatismyip" {
 }
 
 resource "azurerm_network_security_group" "secgroup" {
-<<<<<<< Updated upstream
     name                = "myNetworkSecurityGroup"
     location            = "${var.location}"
     resource_group_name = "${var.rg}"
-    
+
     security_rule {
         name                       = "RDP"
         priority                   = 1001
@@ -29,7 +28,7 @@ resource "azurerm_network_security_group" "secgroup" {
         source_port_range          = "*"
         destination_port_range     = "22"
         source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
-        destination_address_prefix = "*"        
+        destination_address_prefix = "*"
     }
     security_rule {
         name                       = "WEB"
@@ -40,9 +39,9 @@ resource "azurerm_network_security_group" "secgroup" {
         source_port_range          = "*"
         destination_port_range     = "80"
         source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
-        destination_address_prefix = "*"        
+        destination_address_prefix = "*"
     }
-=======
+
   name                = "myNetworkSecurityGroup"
   location            = var.location
   resource_group_name = var.rg
@@ -102,7 +101,6 @@ resource "azurerm_network_security_group" "secgroup" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
->>>>>>> Stashed changes
 }
 
 # Generate random text for a unique storage account name
@@ -128,4 +126,3 @@ resource "azurerm_storage_container" "storagecontainer" {
   storage_account_name  = azurerm_storage_account.storageacct.name
   container_access_type = "private"
 }
-
