@@ -41,7 +41,6 @@ resource "azurerm_network_security_group" "secgroup" {
         source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
         destination_address_prefix = "*"
     }
-<<<<<<< HEAD
 
   name                = "myNetworkSecurityGroup"
   location            = var.location
@@ -102,8 +101,6 @@ resource "azurerm_network_security_group" "secgroup" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-=======
->>>>>>> parent of bb6f3c8... version syntax fixed
 }
 
 # Generate random text for a unique storage account name
@@ -112,7 +109,7 @@ resource "random_id" "randomId" {
         # Generate a new ID only when a new resource group is defined
         resource_group = "${"${var.rg}"}"
     }
-    
+
     byte_length = 8
 }
 
@@ -125,14 +122,12 @@ resource "azurerm_storage_account" "storageacct" {
 }
 
 resource "azurerm_storage_container" "storagecontainer" {
-<<<<<<< HEAD
   name                  = "storagecontainer"
   storage_account_name  = azurerm_storage_account.storageacct.name
   container_access_type = "private"
 }
-=======
+
     name                  = "storagecontainer"
     storage_account_name  = "${azurerm_storage_account.storageacct.name}"
     container_access_type = "private"
 }
->>>>>>> parent of bb6f3c8... version syntax fixed

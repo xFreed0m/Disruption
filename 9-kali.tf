@@ -83,12 +83,9 @@ resource "azurerm_virtual_machine" "kali" {
     }
 }
 
-<<<<<<< HEAD
 # Kali update && upgrade
 
-=======
-# Kali update && upgrade 
->>>>>>> parent of bb6f3c8... version syntax fixed
+# Kali update && upgrade
 # resource "azurerm_virtual_machine_extension" "kali_commands" {
 #   name                 = "kali_commands"
 #   location             = "${var.location}"
@@ -97,8 +94,7 @@ resource "azurerm_virtual_machine" "kali" {
 #   publisher            = "Microsoft.Azure.Extensions"
 #   type                 = "CustomScript"
 #   type_handler_version = "2.0"
-<<<<<<< HEAD
-=======
+
 resource "azurerm_virtual_machine_extension" "kali_commands" {
   name                 = "kali_commands"
   location             = var.location
@@ -107,8 +103,6 @@ resource "azurerm_virtual_machine_extension" "kali_commands" {
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.0"
-=======
->>>>>>> parent of bb6f3c8... version syntax fixed
 
 #   settings = <<SETTINGS
 #     {
@@ -118,10 +112,6 @@ resource "azurerm_virtual_machine_extension" "kali_commands" {
 
 #   depends_on = ["azurerm_virtual_machine.kali"]
 # }
-<<<<<<< HEAD
-=======
 
   depends_on = [azurerm_virtual_machine.kali]
 }
-=======
->>>>>>> parent of bb6f3c8... version syntax fixed
