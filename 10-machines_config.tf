@@ -12,7 +12,16 @@ locals {
 
   # Exit code hack is needed to prevent the terraform deployer from thinking the command failed
   exit_code_hack          = "exit 0"
-  win7_set_dns            = "netsh interface ip set dns 'Local Area Connection' static ${var.int_dns_address}"
+  win7_set_dns            = "${local.win7_set_dns1}; ${local.win7_set_dns2}; ${local.win7_set_dns3}; ${local.win7_set_dns4}; ${local.win7_set_dns5}; ${local.win7_set_dns6}; ${local.win7_set_dns7}; ${local.win7_set_dns8}; ${local.win7_set_dns9}"
+  win7_set_dns1           = "netsh interface ip set dns 'Local Area Connection' static ${var.int_dns_address}"
+  win7_set_dns2           = "netsh interface ip set dns 'Local Area Connection 2' static ${var.int_dns_address}"
+  win7_set_dns3           = "netsh interface ip set dns 'Local Area Connection 3' static ${var.int_dns_address}"
+  win7_set_dns4           = "netsh interface ip set dns 'Local Area Connection 4' static ${var.int_dns_address}"
+  win7_set_dns5           = "netsh interface ip set dns 'Local Area Connection 5' static ${var.int_dns_address}"
+  win7_set_dns6           = "netsh interface ip set dns 'Local Area Connection 6' static ${var.int_dns_address}"
+  win7_set_dns7           = "netsh interface ip set dns 'Local Area Connection 7' static ${var.int_dns_address}"
+  win7_set_dns8           = "netsh interface ip set dns 'Local Area Connection 8' static ${var.int_dns_address}"
+  win7_set_dns9           = "netsh interface ip set dns 'Local Area Connection 9' static ${var.int_dns_address}"
   powershell_command      = "${local.ps_exec_policy}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
   fileserver_install      = "Install-WindowsFeature -Name FS-FileServer -IncludeAllSubFeature -IncludeManagementTools"
   webserver_install       = "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
@@ -250,7 +259,10 @@ SETTINGS
 SETTINGS
 
 
-  depends_on = [azurerm_virtual_machine_extension.dc1primary_commands]
+  depends_on = [
+    azurerm_virtual_machine_extension.dc1primary_commands,
+    azurerm_virtual_machine_extension.client7_commands,
+  ]
 }
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
@@ -271,4 +283,3 @@ SETTINGS
 
   depends_on = [azurerm_virtual_machine.client7]
 }
-
