@@ -32,7 +32,7 @@ locals {
   dc2configure_ad_command = "Install-ADDSDomainController -Credential $mycreds -CreateDnsDelegation:$false -DomainName ${var.domain_name} -InstallDns:$true -SafeModeAdministratorPassword $password -Force:$true"
   dc2shutdown_command     = "shutdown -r -t 10"
   ps_exec_policy          = "Set-ExecutionPolicy Bypass -Force"
-  choco_install           = "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
+  choco_install           = "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
   choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
 
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
