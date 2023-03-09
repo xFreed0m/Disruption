@@ -50,7 +50,7 @@ resource "azurerm_virtual_machine" "kali" {
 
   storage_image_reference {
     publisher = "kali-linux"
-    offer     = "kali-linux"
+    offer     = "kali"
     sku       = "kali"
     version   = "latest"
   }
