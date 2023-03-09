@@ -75,7 +75,7 @@
 #    }
 #  }
 
-  # Mandatory section for Marketplace VMs
+# Mandatory section for Marketplace VMs
 #  plan {
 #    name      = "kali"
 #    publisher = "kali-linux"

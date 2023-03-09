@@ -17,10 +17,10 @@ resource "azurerm_network_interface" "dc1_internalnic" {
 
 # Creating a NIC for external network on DC1
 resource "azurerm_network_interface" "dc1_externalnic" {
-  name                      = "dc1_extnic"
-  location                  = var.location
-  resource_group_name       = var.rg
-#  network_security_group_id = azurerm_network_security_group.secgroup.id
+  name                = "dc1_extnic"
+  location            = var.location
+  resource_group_name = var.rg
+  #  network_security_group_id = azurerm_network_security_group.secgroup.id
 
   ip_configuration {
     primary                       = true
