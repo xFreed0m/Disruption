@@ -9,6 +9,6 @@ resource "azurerm_subnet" "subnet" {
   name                 = "vms_subnet"
   resource_group_name  = var.rg
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = "192.167.1.0/24"
+  address_prefixes     = ["192.167.1.0/24"]
 }
 

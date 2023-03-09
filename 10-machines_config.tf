@@ -41,10 +41,10 @@ locals {
 }
 
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
-  name                 = "dc1primary_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc1primary.name
+  name               = "dc1primary_commands"
+  virtual_machine_id = azurerm_virtual_machine.dc1primary.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.dc1primary.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -64,10 +64,10 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "dc2_commands" {
-  name                 = "dc2_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  name               = "dc2_commands"
+  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -83,10 +83,10 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
-  name                 = "join-domain_dc2"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  name               = "join-domain_dc2"
+  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -118,10 +118,10 @@ SETTINGS
 ### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ###################################
 resource "azurerm_virtual_machine_extension" "join-domain_fileserver" {
-  name                 = "join-domain_domain_fileserver"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  name               = "join-domain_domain_fileserver"
+  virtual_machine_id = azurerm_virtual_machine.fileserver.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.fileserver.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -152,10 +152,10 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "fileserver_commands" {
-  name                 = "fileserver_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  name               = "fileserver_commands"
+  virtual_machine_id = azurerm_virtual_machine.fileserver.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.fileserver.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -175,10 +175,10 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client10" {
-  name                 = "join-domain_client10"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client10.name
+  name               = "join-domain_client10"
+  virtual_machine_id = azurerm_virtual_machine.client10.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.client10.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -209,10 +209,10 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "client10_commands" {
-  name                 = "client10_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client10.name
+  name               = "client10_commands"
+  virtual_machine_id = azurerm_virtual_machine.client10.id
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client10.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -232,10 +232,10 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client7" {
-  name                 = "join-domain_client7"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client7.name
+  name               = "join-domain_client7"
+  virtual_machine_id = azurerm_virtual_machine.client7.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.client7.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -266,10 +266,10 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
-  name                 = "client7_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client7.name
+  name               = "client7_commands"
+  virtual_machine_id = azurerm_virtual_machine.client7.id
+  #  resource_group_name  = var.rg
+  #  virtual_machine_name = azurerm_virtual_machine.client7.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
