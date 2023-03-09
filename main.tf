@@ -1,7 +1,7 @@
 # To prevent token refresh error run this before deployment: az account get-access-token
 
 provider "azurerm" {
-  version = "=1.34.0"
+  # version = "=1.34.0"
   # subscription_id = "${var.subscription_id}"
   # client_id       = "${var.client_id}"
   # client_secret   = "${var.client_sec}"
