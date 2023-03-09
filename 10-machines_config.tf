@@ -210,9 +210,9 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "client10_commands" {
   name                 = "client10_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client10.name
+  virtual_machine_id   = azurerm_virtual_machine.client10.id
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client10.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -267,9 +267,9 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
   name                 = "client7_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client7.name
+  virtual_machine_id   = azurerm_virtual_machine.client7.id
+#  resource_group_name  = var.rg
+#  virtual_machine_name = azurerm_virtual_machine.client7.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
