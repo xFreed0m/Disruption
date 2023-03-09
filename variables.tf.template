@@ -35,7 +35,7 @@ variable "netbios_domain_name" {
 
 # the DC internal address to be able to join the domain
 variable "int_dns_address" {
-    default = ["192.167.7.10"]
+    default = "192.167.7.10"
 }
 
 # Username for the Domain Admin
