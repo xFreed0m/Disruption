@@ -33,3 +33,4 @@ variables.tf
 lab_assets
 later_stuff.txt
 later_stuff.txt
+.terraform.lock.hcl
