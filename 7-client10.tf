@@ -28,7 +28,7 @@ resource "azurerm_virtual_machine" "client10" {
   storage_image_reference {
     publisher = "MicrosoftWindowsDesktop"
     offer     = "Windows-10"
-    sku       = "rs5-pro"
+    sku       = "win10-22h2-pro"
     version   = "latest"
   }
 
