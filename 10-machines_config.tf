@@ -44,7 +44,7 @@ resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
   name                 = "dc1primary_commands"
   #location             = var.location
   #resource_group_name  = var.rg
-  virtual_machine_id   = azurerm_virtual_machine_extension.dc1primary_commands.id
+  virtual_machine_id   = azurerm_virtual_machine.dc1primary.id
   #virtual_machine_name = azurerm_virtual_machine.dc1primary.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -69,7 +69,7 @@ resource "azurerm_virtual_machine_extension" "dc2_commands" {
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
-  virtual_machine_id   = azurerm_virtual_machine_extension.dc2_commands.id
+  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -89,7 +89,7 @@ resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
-  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_dc2.id
+  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -125,7 +125,7 @@ resource "azurerm_virtual_machine_extension" "join-domain_fileserver" {
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.fileserver.name
-  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_fileserver.id
+  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -160,7 +160,7 @@ resource "azurerm_virtual_machine_extension" "fileserver_commands" {
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.fileserver.name
-  virtual_machine_id   = azurerm_virtual_machine_extension.fileserver_commands.id
+  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -183,7 +183,7 @@ resource "azurerm_virtual_machine_extension" "join-domain_client10" {
   name                 = "join-domain_client10"
   #location             = var.location
   #resource_group_name  = var.rg
-  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_client10.id 
+  virtual_machine_id   = azurerm_virtual_machine.client10.id 
   #virtual_machine_name = azurerm_virtual_machine.client10.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
