@@ -42,9 +42,10 @@ locals {
 
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
   name                 = "dc1primary_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc1primary.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  virtual_machine_id   = azurerm_virtual_machine_extension.dc1primary_commands.id
+  #virtual_machine_name = azurerm_virtual_machine.dc1primary.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -65,9 +66,10 @@ SETTINGS
 ####################################
 resource "azurerm_virtual_machine_extension" "dc2_commands" {
   name                 = "dc2_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  virtual_machine_id   = azurerm_virtual_machine_extension.dc2_commands.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -84,9 +86,10 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
   name                 = "join-domain_dc2"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_dc2.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -118,10 +121,11 @@ SETTINGS
 ### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ###################################
 resource "azurerm_virtual_machine_extension" "join-domain_fileserver" {
-  name                 = "join-domain_domain_fileserver"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  name                 = "join-domain_fileserver"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_fileserver.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -153,9 +157,10 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "fileserver_commands" {
   name                 = "fileserver_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  virtual_machine_id   = azurerm_virtual_machine_extension.fileserver_commands.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -176,9 +181,10 @@ SETTINGS
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client10" {
   name                 = "join-domain_client10"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client10.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  virtual_machine_id   = azurerm_virtual_machine_extension.join-domain_client10.id 
+  #virtual_machine_name = azurerm_virtual_machine.client10.name
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -210,9 +216,10 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "client10_commands" {
   name                 = "client10_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client10.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client10.name
+  virtual_machine_id   = azurerm_virtual_machine.client10.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -233,9 +240,10 @@ SETTINGS
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client7" {
   name                 = "join-domain_client7"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client7.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client7.name
+  virtual_machine_id   = azurerm_virtual_machine.client7.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -267,9 +275,10 @@ SETTINGS
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
   name                 = "client7_commands"
-  location             = var.location
-  resource_group_name  = var.rg
-  virtual_machine_name = azurerm_virtual_machine.client7.name
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client7.name
+  virtual_machine_id   = azurerm_virtual_machine.client7.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"

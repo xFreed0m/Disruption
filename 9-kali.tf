@@ -10,7 +10,7 @@
 # }
 
 # External NIC to access Kali from the outside
-resource "azurerm_network_interface" "kali_externalnic" {
+/* resource "azurerm_network_interface" "kali_externalnic" {
   name                      = "kali_extnic"
   location                  = var.location
   resource_group_name       = var.rg
@@ -24,9 +24,9 @@ resource "azurerm_network_interface" "kali_externalnic" {
     public_ip_address_id          = azurerm_public_ip.kalipublicip.id
   }
 }
-
+ */
 # Creating a NIC for internal network on Kali
-resource "azurerm_network_interface" "kali_internalnic" {
+/* resource "azurerm_network_interface" "kali_internalnic" {
   name                = "kali_intnic"
   location            = var.location
   resource_group_name = var.rg
@@ -35,10 +35,10 @@ resource "azurerm_network_interface" "kali_internalnic" {
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
-}
+} */
 
 #Creating kali-linux VM
-resource "azurerm_virtual_machine" "kali" {
+/* resource "azurerm_virtual_machine" "kali" {
   name                             = "kali"
   resource_group_name              = var.rg
   location                         = var.location
@@ -73,15 +73,15 @@ resource "azurerm_virtual_machine" "kali" {
       path     = "/home/landlord/.ssh/authorized_keys"
       key_data = var.pub_key
     }
-  }
+  } */
 
   # Mandatory section for Marketplace VMs
-  plan {
+/*   plan {
     name      = "kali"
     publisher = "kali-linux"
     product   = "kali-linux"
   }
-}
+} */
 
 # Kali update && upgrade
 # resource "azurerm_virtual_machine_extension" "kali_commands" {
