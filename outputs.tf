@@ -38,7 +38,7 @@ output "client7_internal_ip_address" {
   value       = azurerm_network_interface.client7_internalnic.private_ip_address
 }
 
-/* output "Kali_internal_ip_address" {
+output "Kali_internal_ip_address" {
   description = "kali internal IP"
   value       = azurerm_network_interface.kali_internalnic.private_ip_address
 
@@ -52,4 +52,4 @@ output "kali_public_ip_address" {
 
   depends_on = [azurerm_virtual_machine.kali]
 }
- */
+

@@ -22,7 +22,7 @@ locals {
   win7_set_dns7           = "netsh interface ip set dns 'Local Area Connection 7' static ${var.int_dns_address}"
   win7_set_dns8           = "netsh interface ip set dns 'Local Area Connection 8' static ${var.int_dns_address}"
   win7_set_dns9           = "netsh interface ip set dns 'Local Area Connection 9' static ${var.int_dns_address}"
-  powershell_command      = "${local.ps_exec_policy}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
+  powershell_command      = "${local.ps_exec_policy}; ${local.choco_install}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
   fileserver_install      = "Install-WindowsFeature -Name FS-FileServer -IncludeAllSubFeature -IncludeManagementTools"
   webserver_install       = "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
   mkdir_temp              = "mkdir C:/Temp"
@@ -37,7 +37,7 @@ locals {
 
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
   set_dns               = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
-  dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
+  dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
 }
 
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
@@ -167,7 +167,7 @@ resource "azurerm_virtual_machine_extension" "fileserver_commands" {
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.mkdir_temp}; ${local.fileserver_install}; ${local.fileserver_share}; ${local.webserver_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.mkdir_temp}; ${local.fileserver_install}; ${local.fileserver_share}; ${local.webserver_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 
