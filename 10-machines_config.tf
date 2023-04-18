@@ -224,9 +224,13 @@ resource "azurerm_virtual_machine_extension" "client10_commands" {
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
 
+  timeouts {
+    create = "120m"
+  }
+
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 
@@ -285,7 +289,7 @@ resource "azurerm_virtual_machine_extension" "client7_commands" {
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.win7_set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.win7_set_dns}; ${local.choco_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 
