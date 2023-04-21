@@ -41,6 +41,7 @@ variable "int_dns_address" {
 # kali static IP
 variable "int_kali_address" {
     default = ""
+
 }
 
 # Username for the Domain Admin

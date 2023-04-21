@@ -22,6 +22,7 @@ resource "azurerm_network_interface" "dc1_externalnic" {
   resource_group_name       = var.rg
   #network_security_group_id = azurerm_network_security_group.secgroup.id
 
+
   ip_configuration {
     primary                       = true
     name                          = "dc1_externalnic"

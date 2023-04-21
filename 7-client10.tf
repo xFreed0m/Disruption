@@ -29,6 +29,7 @@ resource "azurerm_virtual_machine" "client10" {
     publisher = "MicrosoftWindowsDesktop"
     offer     = "Windows-10"
     sku       = "win10-22h2-pro"
+
     version   = "latest"
   }
 

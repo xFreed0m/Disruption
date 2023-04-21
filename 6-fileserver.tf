@@ -21,6 +21,7 @@ resource "azurerm_network_interface" "fileserver_externalnic" {
   resource_group_name       = var.rg
   #network_security_group_id = azurerm_network_security_group.secgroup.id
 
+
   ip_configuration {
     primary                       = true
     name                          = "fileserver_externalnic"

@@ -16,14 +16,15 @@ resource "azurerm_network_interface" "kali_externalnic" {
   resource_group_name       = var.rg
   #network_security_group_id = azurerm_network_security_group.secgroup.id
 
-  ip_configuration {
-    primary                       = true
-    name                          = "kali_externalnic"
-    subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.kalipublicip.id
-  }
-}
+
+#  ip_configuration {
+#    primary                       = true
+#    name                          = "kali_externalnic"
+#    subnet_id                     = azurerm_subnet.subnet.id
+#    private_ip_address_allocation = "Dynamic"
+#    public_ip_address_id          = azurerm_public_ip.kalipublicip.id
+#  }
+#}
 
 # Creating a NIC for internal network on Kali
 resource "azurerm_network_interface" "kali_internalnic" {
@@ -78,6 +79,7 @@ resource "azurerm_linux_virtual_machine" "kali" {
   }
 
 }
+
 
 # Kali update && upgrade
 resource "azurerm_virtual_machine_extension" "kali_commands" {
