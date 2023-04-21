@@ -38,6 +38,12 @@ variable "int_dns_address" {
     default = "192.167.1.10"
 }
 
+# kali static IP
+variable "int_kali_address" {
+    default = ""
+
+}
+
 # Username for the Domain Admin
 variable "DA_username" {
   default = ""

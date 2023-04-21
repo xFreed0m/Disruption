@@ -22,7 +22,7 @@ locals {
   win7_set_dns7           = "netsh interface ip set dns 'Local Area Connection 7' static ${var.int_dns_address}"
   win7_set_dns8           = "netsh interface ip set dns 'Local Area Connection 8' static ${var.int_dns_address}"
   win7_set_dns9           = "netsh interface ip set dns 'Local Area Connection 9' static ${var.int_dns_address}"
-  powershell_command      = "${local.ps_exec_policy}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
+  powershell_command      = "${local.ps_exec_policy}; ${local.choco_install}; ${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.install_dns_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
   fileserver_install      = "Install-WindowsFeature -Name FS-FileServer -IncludeAllSubFeature -IncludeManagementTools"
   webserver_install       = "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
   mkdir_temp              = "mkdir C:/Temp"
@@ -37,14 +37,16 @@ locals {
 
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
   set_dns               = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
-  dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
+  dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
 }
 
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
-  name               = "dc1primary_commands"
-  virtual_machine_id = azurerm_virtual_machine.dc1primary.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.dc1primary.name
+  name                 = "dc1primary_commands"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  virtual_machine_id   = azurerm_virtual_machine.dc1primary.id
+  #virtual_machine_name = azurerm_virtual_machine.dc1primary.name
+
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -64,10 +66,12 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "dc2_commands" {
-  name               = "dc2_commands"
-  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  name                 = "dc2_commands"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
+
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -83,10 +87,12 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
-  name               = "join-domain_dc2"
-  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  name                 = "join-domain_dc2"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
+  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
+
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -118,10 +124,12 @@ SETTINGS
 ### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ###################################
 resource "azurerm_virtual_machine_extension" "join-domain_fileserver" {
-  name               = "join-domain_domain_fileserver"
-  virtual_machine_id = azurerm_virtual_machine.fileserver.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  name                 = "join-domain_fileserver"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
+
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -152,17 +160,19 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "fileserver_commands" {
-  name               = "fileserver_commands"
-  virtual_machine_id = azurerm_virtual_machine.fileserver.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  name                 = "fileserver_commands"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.fileserver.name
+  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
+
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.mkdir_temp}; ${local.fileserver_install}; ${local.fileserver_share}; ${local.webserver_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.mkdir_temp}; ${local.fileserver_install}; ${local.fileserver_share}; ${local.webserver_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 
@@ -175,10 +185,12 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client10" {
-  name               = "join-domain_client10"
-  virtual_machine_id = azurerm_virtual_machine.client10.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.client10.name
+  name                 = "join-domain_client10"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  virtual_machine_id   = azurerm_virtual_machine.client10.id 
+  #virtual_machine_name = azurerm_virtual_machine.client10.name
+
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -205,21 +217,28 @@ SETTINGS
   depends_on = [
     azurerm_virtual_machine_extension.dc1primary_commands,
     azurerm_virtual_machine_extension.client10_commands,
+    azurerm_virtual_machine_extension.dc2_commands
   ]
 }
 
 resource "azurerm_virtual_machine_extension" "client10_commands" {
-  name               = "client10_commands"
-  virtual_machine_id = azurerm_virtual_machine.client10.id
+  name                 = "client10_commands"
+  #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.client10.name
+  virtual_machine_id   = azurerm_virtual_machine.client10.id
+
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
 
+  timeouts {
+    create = "120m"
+  }
+
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 
@@ -232,10 +251,12 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client7" {
-  name               = "join-domain_client7"
-  virtual_machine_id = azurerm_virtual_machine.client7.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.client7.name
+  name                 = "join-domain_client7"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client7.name
+  virtual_machine_id   = azurerm_virtual_machine.client7.id
+
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
@@ -266,17 +287,19 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
-  name               = "client7_commands"
-  virtual_machine_id = azurerm_virtual_machine.client7.id
-  #  resource_group_name  = var.rg
-  #  virtual_machine_name = azurerm_virtual_machine.client7.name
+  name                 = "client7_commands"
+  #location             = var.location
+  #resource_group_name  = var.rg
+  #virtual_machine_name = azurerm_virtual_machine.client7.name
+  virtual_machine_id   = azurerm_virtual_machine.client7.id
+
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.win7_set_dns}; ${local.choco_install}; ${local.choco_pks}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
+        "commandToExecute": "powershell.exe -Command \"${local.ps_exec_policy}; ${local.win7_set_dns}; ${local.choco_install}; ${local.shutdown_command}; ${local.exit_code_hack}\" "
     }
 SETTINGS
 

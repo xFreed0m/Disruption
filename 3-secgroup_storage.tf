@@ -41,6 +41,17 @@ resource "azurerm_network_security_group" "secgroup" {
     source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
     destination_address_prefix = "*"
   }
+    security_rule {
+    name                       = "WEB-ssl"
+    priority                   = 1004
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
+    destination_address_prefix = "*"
+  }
 }
 
 # Generate random text for a unique storage account name
