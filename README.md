@@ -14,9 +14,10 @@ All the needed configurations (Domain creation, DC promotion, joining the machin
 1. Have Terraform installed on your machine - [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) (I'm not covering the instruction for that part as it's already widely covered on the internet)
 2. Duplicate the variables.tf.template and remove the 'template' from the duplicated file name.
 3. Fill in the details in the variables.tf file you just created, those variables are used during the deployment.
-4. Have a coffee or something, this takes ~45 minutes to complete the deployment fully
-5. When the deployment is done Terraform will print all the IPs (public and private) - note that the public IPs will be configured to allow external connections only from the deploying machine public IP and the rules allow port 80, 3389 and 22.
-6. Make sure to destroy the environment to avoid being charged a considerable amount of money.
+4. `terraform init && terraform plan && terraform apply`
+5. Have a coffee or something, this takes ~45 minutes to complete the deployment fully
+6. When the deployment is done Terraform will print all the IPs (public and private) - note that the public IPs will be configured to allow external connections only from the deploying machine public IP and the rules allow port 80, 3389 and 22.
+7. Make sure to destroy the environment to avoid being charged a considerable amount of money.
 
 ### Issues, bugs and other code-issues
 Yeah, I know, this code isn't the best. I'm fine with it as I'm not a developer and this is part of my learning process.

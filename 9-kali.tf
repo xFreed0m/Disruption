@@ -3,11 +3,11 @@
 ###################################
 
 # Accepting Kali license (due of being an Azure Marketplace image)
-/* resource "azurerm_marketplace_agreement" "kali-linux" {
+ resource "azurerm_marketplace_agreement" "kali-linux" {
    publisher = "kali-linux"
-   offer     = "kali-linux"
-   plan      = "kali"
- } */
+   offer     = "kali"
+   plan      = "kali-20231"
+ } 
 
 # External NIC to access Kali from the outside
 resource "azurerm_network_interface" "kali_externalnic" {
@@ -33,13 +33,14 @@ resource "azurerm_network_interface" "kali_internalnic" {
   ip_configuration {
     name                          = "kali_internal"
     subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = var.int_kali_address
   }
 }
 
 #Creating kali-linux VM
 resource "azurerm_linux_virtual_machine" "kali" {
-  name                             = "kali"
+  name                             = "kalivm"
   resource_group_name              = var.rg
   location                         = var.location
   network_interface_ids            = [azurerm_network_interface.kali_externalnic.id, azurerm_network_interface.kali_internalnic.id]
@@ -71,24 +72,10 @@ resource "azurerm_linux_virtual_machine" "kali" {
     storage_account_type = "Standard_LRS"
   }
 
-  #os_profile {
-  #  computer_name  = "kali"
-  #  admin_password = var.password
-  #}
-
   admin_ssh_key {
   username   = var.username
   public_key = var.pub_key
   }
-
- # os_profile_linux_config {
- #   disable_password_authentication = true
- #   ssh_keys {
- #     path     = "/home/landlord/.ssh/authorized_keys"
- #     key_data = var.pub_key
- #   }
- # }
-
 
 }
 
