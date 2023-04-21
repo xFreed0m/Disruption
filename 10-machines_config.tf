@@ -211,6 +211,7 @@ SETTINGS
   depends_on = [
     azurerm_virtual_machine_extension.dc1primary_commands,
     azurerm_virtual_machine_extension.client10_commands,
+    azurerm_virtual_machine_extension.dc2_commands
   ]
 }
 
