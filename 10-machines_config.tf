@@ -35,6 +35,9 @@ locals {
   choco_install           = "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
   choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
 
+  # DLing and running badblood
+  badblood_command        = "$username=${var.DA_username} && $password=${var.password} && $securePassword = ConvertTo-SecureString $password -AsPlainText -Force && $Credential = New-Object System.Management.Automation.PSCredential $username, $securePassword && choco install ${var.git} && mkdir c:\\temp && cd c:\\temp && git clone https://github.com/davidprowe/badblood.git && Start-Process powershell.exe -Credential $Credential -ArgumentList '-file ./badblood/invoke-badblood.ps1 -NonInteractive && exit 0' && exit 0"
+  
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
   set_dns               = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
   dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
@@ -246,6 +249,27 @@ SETTINGS
   depends_on = [azurerm_virtual_machine.client10]
 }
 
+resource "azurerm_virtual_machine_extension" "badblood_commands" {
+  name                 = "badblood_commands"
+  virtual_machine_id   = azurerm_virtual_machine.dc1primary.id
+
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "1.9"
+
+  timeouts {
+    create = "120m"
+  }
+
+  settings = <<SETTINGS
+    {
+        "commandToExecute": "powershell.exe -Command \"${local.badblood_command}\" "
+    }
+SETTINGS
+
+
+  depends_on = [azurerm_virtual_machine_extension.client10_commands]
+}
 ####################################
 ####### Joining client7 to the domain and installing utils
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
