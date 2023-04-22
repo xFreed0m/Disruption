@@ -41,7 +41,7 @@ resource "azurerm_network_security_group" "secgroup" {
     source_address_prefix      = "${data.external.whatismyip.result["internet_ip"]}/32"
     destination_address_prefix = "*"
   }
-    security_rule {
+  security_rule {
     name                       = "WEB-ssl"
     priority                   = 1004
     direction                  = "Inbound"

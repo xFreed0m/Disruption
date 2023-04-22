@@ -36,18 +36,18 @@ locals {
   choco_pks               = "powershell.exe -Command choco install ${var.chrome} ${var.notepad} ${var.s7z} ${var.git} ${var.sysint} ${var.py3} ${var.py2} -y"
 
   # DLing and running badblood
-  badblood_command        = "$username=${var.DA_username} && $password=${var.password} && $securePassword = ConvertTo-SecureString $password -AsPlainText -Force && $Credential = New-Object System.Management.Automation.PSCredential $username, $securePassword && choco install ${var.git} && mkdir c:\\temp && cd c:\\temp && git clone https://github.com/davidprowe/badblood.git && Start-Process powershell.exe -Credential $Credential -ArgumentList '-file ./badblood/invoke-badblood.ps1 -NonInteractive && exit 0' && exit 0"
-  
+  badblood_command = "$username=${var.DA_username} && $password=${var.password} && $securePassword = ConvertTo-SecureString $password -AsPlainText -Force && $Credential = New-Object System.Management.Automation.PSCredential $username, $securePassword && choco install ${var.git} && mkdir c:\\temp && cd c:\\temp && git clone https://github.com/davidprowe/badblood.git && Start-Process powershell.exe -Credential $Credential -ArgumentList '-file ./badblood/invoke-badblood.ps1 -NonInteractive && exit 0' && exit 0"
+
   # Clients sometimes needs to refresh the DNS server address or they won't be able to find the DC ¯\_(ツ)_/¯
   set_dns               = "Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('${var.int_dns_address}', '1.1.1.1')"
   dc2powershell_command = "${local.ps_exec_policy}; ${local.set_dns}; ${local.choco_install}; ${local.import_command}; ${local.dc2user_command}; ${local.password_command}; ${local.dc2creds_command}; ${local.install_ad_command}; ${local.dc2configure_ad_command}; ${local.dc2shutdown_command}; ${local.exit_code_hack}"
 }
 
 resource "azurerm_virtual_machine_extension" "dc1primary_commands" {
-  name                 = "dc1primary_commands"
+  name = "dc1primary_commands"
   #location             = var.location
   #resource_group_name  = var.rg
-  virtual_machine_id   = azurerm_virtual_machine.dc1primary.id
+  virtual_machine_id = azurerm_virtual_machine.dc1primary.id
   #virtual_machine_name = azurerm_virtual_machine.dc1primary.name
 
   publisher            = "Microsoft.Compute"
@@ -69,11 +69,11 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "dc2_commands" {
-  name                 = "dc2_commands"
+  name = "dc2_commands"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
-  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
+  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
 
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -90,11 +90,11 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "join-domain_dc2" {
-  name                 = "join-domain_dc2"
+  name = "join-domain_dc2"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.dc2sub.name
-  virtual_machine_id   = azurerm_virtual_machine.dc2sub.id
+  virtual_machine_id = azurerm_virtual_machine.dc2sub.id
 
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
@@ -127,11 +127,11 @@ SETTINGS
 ### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ###################################
 resource "azurerm_virtual_machine_extension" "join-domain_fileserver" {
-  name                 = "join-domain_fileserver"
+  name = "join-domain_fileserver"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.fileserver.name
-  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
+  virtual_machine_id = azurerm_virtual_machine.fileserver.id
 
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
@@ -163,11 +163,11 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "fileserver_commands" {
-  name                 = "fileserver_commands"
+  name = "fileserver_commands"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.fileserver.name
-  virtual_machine_id   = azurerm_virtual_machine.fileserver.id
+  virtual_machine_id = azurerm_virtual_machine.fileserver.id
 
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -188,10 +188,10 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client10" {
-  name                 = "join-domain_client10"
+  name = "join-domain_client10"
   #location             = var.location
   #resource_group_name  = var.rg
-  virtual_machine_id   = azurerm_virtual_machine.client10.id 
+  virtual_machine_id = azurerm_virtual_machine.client10.id
   #virtual_machine_name = azurerm_virtual_machine.client10.name
 
   publisher            = "Microsoft.Compute"
@@ -225,11 +225,11 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "client10_commands" {
-  name                 = "client10_commands"
+  name = "client10_commands"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.client10.name
-  virtual_machine_id   = azurerm_virtual_machine.client10.id
+  virtual_machine_id = azurerm_virtual_machine.client10.id
 
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -250,8 +250,8 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "badblood_commands" {
-  name                 = "badblood_commands"
-  virtual_machine_id   = azurerm_virtual_machine.dc1primary.id
+  name               = "badblood_commands"
+  virtual_machine_id = azurerm_virtual_machine.dc1primary.id
 
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
@@ -275,11 +275,11 @@ SETTINGS
 #### Based on https://github.com/ghostinthewires/Terraform-Templates/blob/master/Azure/2-tier-iis-sql-vm/modules/dc2-vm/3-join-domain.tf
 ####################################
 resource "azurerm_virtual_machine_extension" "join-domain_client7" {
-  name                 = "join-domain_client7"
+  name = "join-domain_client7"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.client7.name
-  virtual_machine_id   = azurerm_virtual_machine.client7.id
+  virtual_machine_id = azurerm_virtual_machine.client7.id
 
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
@@ -311,11 +311,11 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "client7_commands" {
-  name                 = "client7_commands"
+  name = "client7_commands"
   #location             = var.location
   #resource_group_name  = var.rg
   #virtual_machine_name = azurerm_virtual_machine.client7.name
-  virtual_machine_id   = azurerm_virtual_machine.client7.id
+  virtual_machine_id = azurerm_virtual_machine.client7.id
 
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"

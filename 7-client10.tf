@@ -30,7 +30,7 @@ resource "azurerm_virtual_machine" "client10" {
     offer     = "Windows-10"
     sku       = "win10-22h2-pro"
 
-    version   = "latest"
+    version = "latest"
   }
 
   storage_os_disk {
